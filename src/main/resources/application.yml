@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:h2:file:./kommentaire-database;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
+    username : user
+    password : pwd
+    driver-class-name : org.h2.Driver
+    ddl-auto : update
+#spring.jpa.show-sql=true
+
+graphql:
+  packages:
+    - "fr.kommentaire.server.question"
+    - "fr.kommentaire.server.user"
