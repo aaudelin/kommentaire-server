@@ -9,7 +9,7 @@ import graphql.schema.GraphQLFieldDefinition
 import org.springframework.http.HttpStatus
 
 
-@GraphQLDirective(name = "auth", description = "Checks if authentication is respected")
+@GraphQLDirective(name = "auth", description = "Checks if authentication is respected with access_token")
 annotation class AuthenticationDirective
 
 class AuthenticationSchemaDirectiveWiring : KotlinSchemaDirectiveWiring {
