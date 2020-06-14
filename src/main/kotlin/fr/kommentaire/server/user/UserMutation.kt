@@ -23,9 +23,11 @@ class UserMutation(
         val userDB = userRepository.findUserFromPseudo(pseudo) ?: throw HttpException(HttpStatus.BAD_REQUEST, "Pseudo $pseudo does not exist")
         if (!userService.matchPassword(userDB.pwd, pwd)) throw HttpException(HttpStatus.BAD_REQUEST, "Wrong password")
 
-        return userDB.copy(
+        val user = userDB.copy(
                 token = userService.generateUserToken(),
                 dateToken = userService.refreshTokenDate()
         )
+        userRepository.updateToken(user)
+        return user
     }
 }

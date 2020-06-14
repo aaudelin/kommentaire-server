@@ -8,11 +8,9 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class UserRepository(val jdbcTemplate: JdbcTemplate, val userJdbcInsert: SimpleJdbcInsert) {
-    fun selectAllUsers(): List<User> {
-        return jdbcTemplate.query("SELECT * FROM USER") { rs, rowNum ->
-            val userRole = if (rs.getString(5) == "ADMIN") UserRole.ADMIN else UserRole.USER
-            User(rs.getInt(1), rs.getString(2), rs.getString(4), rs.getString(6), rs.getString(3), userRole)
-        }
+
+    fun updateToken(user: User) : Int {
+        return jdbcTemplate.update("UPDATE USER SET token='${user.token}', DATETOKEN='${user.dateToken}' where id=${user.id}")
     }
 
     fun insertUser(user: User): Int? {
