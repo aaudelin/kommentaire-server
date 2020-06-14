@@ -4,18 +4,22 @@ import com.expediagroup.graphql.spring.operations.Mutation
 import org.springframework.stereotype.Component
 
 @Component
-class QuestionMutation : Mutation {
+class QuestionMutation(
+        val questionRepository: QuestionRepository
+) : Mutation {
 
     fun createQuestion(content: String) : Question {
-        return Question(0, content, 0)
+        val question = Question(0, content, 0)
+        val questionID = questionRepository.insertQuestion(question)
+        return question.copy(id = questionID ?: 0)
     }
 
-    fun upvoteQuestion(): Question {
-        return Question(0, "UPVOTE", 1)
+    fun upvoteQuestion(questionId: Int): Question? {
+        return questionRepository.updateQuestionVote(questionId, 1)
     }
 
-    fun downvoteQuestion(): Question {
-        return Question(0, "DOWNVOTE", -1)
+    fun downvoteQuestion(questionId: Int): Question? {
+        return questionRepository.updateQuestionVote(questionId, -1)
     }
 
 }
