@@ -2,6 +2,7 @@ package fr.kommentaire.server.question
 
 import com.expediagroup.graphql.spring.operations.Mutation
 import fr.kommentaire.server.authentication.AuthenticationDirective
+import fr.kommentaire.server.authentication.GraphQLHttpContext
 import org.springframework.stereotype.Component
 
 @Component
@@ -10,8 +11,8 @@ class QuestionMutation(
 ) : Mutation {
 
     @AuthenticationDirective
-    fun createQuestion(content: String) : Question {
-        val question = Question(0, content, 0)
+    fun createQuestion(content: String, graphQLHttpContext: GraphQLHttpContext) : Question {
+        val question = Question(0, content, 0, graphQLHttpContext.user?.id ?: 0)
         val questionID = questionRepository.insertQuestion(question)
         return question.copy(id = questionID ?: 0)
     }
