@@ -11,7 +11,7 @@ class QuestionRepository(val jdbcTemplate: JdbcTemplate, val questionJdbcInsert:
 
     fun selectAllQuestions(): List<Question> {
         return jdbcTemplate.query("SELECT * FROM question") { rs, rowNum ->
-            Question(rs.getInt(1), rs.getString(2), rs.getInt(3))
+            Question(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4))
         }
     }
 
