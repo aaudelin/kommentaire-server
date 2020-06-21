@@ -22,3 +22,10 @@ create table if not exists  USER_APP
 		primary key (ID)
 );
 
+create table if not exists  USER_UPVOTE
+(
+	USERID INT,
+	QUESTIONID INT,
+	TYPE VARCHAR
+);
+

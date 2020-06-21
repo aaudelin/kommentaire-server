@@ -11,7 +11,7 @@ class UserQuery(
 ) : Query {
 
     @AuthenticationDirective
-    fun user(pseudo: String?) : List<User?>? {
+    fun users(pseudo: String?) : List<User?>? {
         return if (pseudo != null) listOf(userRepository.findUserFromPseudo(pseudo)) else userRepository.findAll()
     }
 

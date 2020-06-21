@@ -9,7 +9,7 @@ class QuestionQuery(
         val questionRepository: QuestionRepository
 ) : Query {
 
-    fun question(environment: DataFetchingEnvironment) : List<Question> {
+    fun questions(environment: DataFetchingEnvironment) : List<Question> {
         return questionRepository.selectAllQuestions()
     }
 
