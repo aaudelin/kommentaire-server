@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -51,6 +52,7 @@ class Configuration {
 }
 
 @Configuration
+@Profile("!dev")
 class DatabaseConfig {
 	@Value("\${spring.datasource.url}")
 	private val dbUrl: String? = null

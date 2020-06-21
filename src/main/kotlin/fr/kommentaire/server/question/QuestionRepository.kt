@@ -48,4 +48,10 @@ class QuestionRepository(val jdbcTemplate: JdbcTemplate, val questionJdbcInsert:
         }
     }
 
+    fun findLastQuestion(): Question? {
+        return jdbcTemplate.query("SELECT * FROM question ORDER BY id desc LIMIT 1") { rs, rowNum ->
+            Question(rs.getInt(1), rs.getString(2), rs.getInt(3))
+        }.getOrNull(0)
+    }
+
 }
