@@ -10,7 +10,7 @@ create table if not exists QUESTION
 		primary key (ID)
 );
 
-create table if not exists  USER
+create table if not exists  USER_APP
 (
 	ID INT auto_increment,
 	PSEUDO VARCHAR,

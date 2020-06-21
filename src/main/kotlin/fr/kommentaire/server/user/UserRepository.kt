@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository
 class UserRepository(val jdbcTemplate: JdbcTemplate, val userJdbcInsert: SimpleJdbcInsert) {
 
     fun updateToken(user: User) : Int {
-        return jdbcTemplate.update("UPDATE USER SET token='${user.token}', DATETOKEN='${user.dateToken}' where id=${user.id}")
+        return jdbcTemplate.update("UPDATE USER_APP SET token='${user.token}', DATETOKEN='${user.dateToken}' where id=${user.id}")
     }
 
     fun insertUser(user: User): Int? {
@@ -25,28 +25,28 @@ class UserRepository(val jdbcTemplate: JdbcTemplate, val userJdbcInsert: SimpleJ
     }
 
     fun findUserFromId(userId: Int): User? {
-        return jdbcTemplate.query("SELECT * FROM USER WHERE id=$userId") { rs, rowNum ->
+        return jdbcTemplate.query("SELECT * FROM USER_APP WHERE id=$userId") { rs, rowNum ->
             val userRole = if (rs.getString(5) == "ADMIN") UserRole.ADMIN else UserRole.USER
             User(rs.getInt(1), rs.getString(2), rs.getString(4), rs.getString(6), rs.getString(3), userRole)
         }.getOrNull(0)
     }
 
     fun findUserFromPseudo(pseudo: String): User? {
-        return jdbcTemplate.query("SELECT * FROM USER WHERE pseudo='$pseudo'") { rs, rowNum ->
+        return jdbcTemplate.query("SELECT * FROM USER_APP WHERE pseudo='$pseudo'") { rs, rowNum ->
             val userRole = if (rs.getString(5) == "ADMIN") UserRole.ADMIN else UserRole.USER
             User(rs.getInt(1), rs.getString(2), rs.getString(4), rs.getString(6), rs.getString(3), userRole)
         }.getOrNull(0)
     }
 
     fun findUserFromToken(token: String): User? {
-        return jdbcTemplate.query("SELECT * FROM USER WHERE token='$token'") { rs, rowNum ->
+        return jdbcTemplate.query("SELECT * FROM USER_APP WHERE token='$token'") { rs, rowNum ->
             val userRole = if (rs.getString(5) == "ADMIN") UserRole.ADMIN else UserRole.USER
             User(rs.getInt(1), rs.getString(2), rs.getString(4), rs.getString(6), rs.getString(3), userRole)
         }.getOrNull(0)
     }
 
     fun findAll(): List<User?>? {
-        return jdbcTemplate.query("SELECT * FROM USER") { rs, rowNum ->
+        return jdbcTemplate.query("SELECT * FROM USER_APP") { rs, rowNum ->
             val userRole = if (rs.getString(5) == "ADMIN") UserRole.ADMIN else UserRole.USER
             User(rs.getInt(1), rs.getString(2), rs.getString(4), rs.getString(6), rs.getString(3), userRole)
         }
