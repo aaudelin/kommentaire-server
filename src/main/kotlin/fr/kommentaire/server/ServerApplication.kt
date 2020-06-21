@@ -34,7 +34,7 @@ class Configuration {
 
 	@Bean
 	fun userJdbcInsert(jdbcTemplate: JdbcTemplate) : SimpleJdbcInsert {
-		return SimpleJdbcInsert(jdbcTemplate).withTableName("USER").usingGeneratedKeyColumns("id")
+		return SimpleJdbcInsert(jdbcTemplate).withTableName("USER_APP").usingGeneratedKeyColumns("id")
 	}
 
 	@Bean
