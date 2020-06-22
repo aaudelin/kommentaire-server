@@ -1,6 +1,7 @@
 package fr.kommentaire.server.question
 
 import com.expediagroup.graphql.spring.operations.Mutation
+import fr.kommentaire.server.BeanUtil
 import fr.kommentaire.server.authentication.AuthenticationDirective
 import fr.kommentaire.server.authentication.GraphQLHttpContext
 import fr.kommentaire.server.upvote.UpvoteRepository
@@ -16,6 +17,7 @@ class QuestionMutation(
     fun createQuestion(content: String, graphQLHttpContext: GraphQLHttpContext) : Question {
         val question = Question(0, content, graphQLHttpContext.user?.id ?: 0)
         val questionID = questionRepository.insertQuestion(question)
+        BeanUtil.addQuestionId(questionID)
         return question.copy(id = questionID ?: 0)
     }
 
@@ -23,6 +25,7 @@ class QuestionMutation(
     fun upvoteQuestion(questionId: Int, graphQLHttpContext: GraphQLHttpContext): Question? {
         upvoteRepository.cancelVote(questionId, graphQLHttpContext.user!!.id)
         upvoteRepository.upvoteQuestion(questionId, graphQLHttpContext.user!!.id)
+        BeanUtil.addQuestionId(questionId)
         return questionRepository.findQuestion(questionId)
     }
 
@@ -30,12 +33,14 @@ class QuestionMutation(
     fun downvoteQuestion(questionId: Int, graphQLHttpContext: GraphQLHttpContext): Question? {
         upvoteRepository.cancelVote(questionId, graphQLHttpContext.user!!.id)
         upvoteRepository.downvoteQuestion(questionId, graphQLHttpContext.user!!.id)
+        BeanUtil.addQuestionId(questionId)
         return questionRepository.findQuestion(questionId)
     }
 
     @AuthenticationDirective
     fun cancelQuestionVote(questionId: Int, graphQLHttpContext: GraphQLHttpContext): Question? {
         upvoteRepository.cancelVote(questionId, graphQLHttpContext.user!!.id)
+        BeanUtil.addQuestionId(questionId)
         return questionRepository.findQuestion(questionId)
     }
 
