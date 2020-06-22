@@ -8,6 +8,7 @@ import kotlinx.coroutines.reactive.asPublisher
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.Instant
 import java.util.Date
@@ -29,8 +30,8 @@ class QuestionSubscription(
         }
     }
 
-    fun questionChange(): Flux<List<Question>> {
-        var timestamp = Date.from(Instant.now())
+    fun questionChange(startDate: String?): Flux<List<Question>> {
+        var timestamp = if (startDate != null) SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(startDate) else Date.from(Instant.now())
 
         return Flux.interval(Duration.ofSeconds(3)).flatMap {
             val questionsIds = BeanUtil.getQuestions().filter {
